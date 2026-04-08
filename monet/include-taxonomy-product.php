@@ -13,7 +13,6 @@ if ( ! empty($next_gen) ) : ?>
 $monet_raw = get_field('monet_stock', false, false);
 $th_raw    = get_field('th_stock',    false, false);
 $jp_raw    = get_field('jp_stock',    false, false);
-$tkg_raw   = get_field('tkg_stock',   false, false);
 $ktw_raw   = get_field('ktw_stock',   false, false);
 $sis_raw   = get_field('sis_stock',   false, false);
 
@@ -47,7 +46,7 @@ if ( ! $finished_model ) {
         || monet_has_stock($sis_raw);
 
     $has_jp_stock = monet_has_stock($jp_raw)
-        || monet_has_stock($tkg_raw);
+        ;
 
     if ($has_thai_stock) {
         echo '<span class="trusco-stock-roop-thai">จัดส่งพรุ่งนี้</span>';
@@ -95,7 +94,7 @@ $placeholder_url = get_site_url() . '/wp-content/uploads/woocommerce-placeholder
 
 <!-- price -->
 <?php if( has_term('finished-model','trusco_status') ) : ?>
-<?php if( get_field('monet_stock') or get_field('th_stock') or get_field('jp_stock') or get_field('tkg_stock')): ?>
+<?php if( get_field('monet_stock') or get_field('th_stock') or get_field('jp_stock')): ?>
 <?php include __DIR__ . '/include-product-price.php'; ?>
 <?php endif; ?>
 <?php else : ?>

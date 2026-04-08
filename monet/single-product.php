@@ -342,7 +342,6 @@ $supplier = [
         'supplier'
     )
     || ( has_term('midori-anzen', 'brand') && has_term('thai-purchase', 'import_method') ),
-    'tkg' => has_term('s-tkg', 'supplier'),
 ];
 
 // ----------------- 在庫定義 -----------------
@@ -354,7 +353,6 @@ $stock = [
     'supplier' => (int) get_field('supplier_stock'),
     'idec'     => (int) get_field('idec_stock'),
     'jp'       => (int) get_field('jp_stock'),
-    'tkg'      => (int) get_field('tkg_stock'),
 ];
 
 // Thai 合算
@@ -397,10 +395,12 @@ $leadtime = [
 
 <!-- stock -->
 <?php
-if ($context['skip']) return;
+if ($context['skip']) {
+    // 在庫/納期を非表示にするだけ（テンプレ全体は継続）
+} else {
 
 /* 表示用ヘルパー */
-function render_stock_item($label, $qty, $text) {
+function monet_render_stock_item($label, $qty, $text) {
     $qty = (int) $qty;
     $formatted = number_format($qty);
 
@@ -431,21 +431,6 @@ function render_stock_item($label, $qty, $text) {
     </td>
 </tr>
 
-<?php elseif ($supplier['tkg']) : ?>
-
-<tr>
-    <th>สต็อก</th>
-    <td>
-        <?php
-        echo render_stock_item(
-            'jp',
-            $stock['tkg'],
-            '(สต็อกในญี่ปุ่น)'
-        );
-        ?>
-    </td>
-</tr>
-
 <?php else : ?>
 
 <tr>
@@ -454,19 +439,18 @@ function render_stock_item($label, $qty, $text) {
         <?php
         if ($flag['toriyose'] && $stock['fast_total'] === 0) {
             echo '<span class="stock-non stock-style">0</span> (สินค้าต้องพรีออเดอร์)';
-            return;
-        }
+        } else {
+            if ($stock['monet'] > 0) {
+                echo monet_render_stock_item('monet', $stock['monet'], '(สต็อกใน Monet)') . '<br>';
+            }
 
-        if ($stock['monet'] > 0) {
-            echo render_stock_item('monet', $stock['monet'], '(สต็อกใน Monet)') . '<br>';
-        }
+            if ($stock['thai_total'] > 0) {
+                echo monet_render_stock_item('thai', $stock['thai_total'], '(สต็อกในไทย)') . '<br>';
+            }
 
-        if ($stock['thai_total'] > 0) {
-            echo render_stock_item('thai', $stock['thai_total'], '(สต็อกในไทย)') . '<br>';
-        }
-
-        if (!$flag['thai_purchase']) {
-            echo render_stock_item('jp', $stock['jp'], '(สต็อกในญี่ปุ่น)');
+            if (!$flag['thai_purchase']) {
+                echo monet_render_stock_item('jp', $stock['jp'], '(สต็อกในญี่ปุ่น)');
+            }
         }
         ?>
     </td>
@@ -477,10 +461,10 @@ function render_stock_item($label, $qty, $text) {
 
 <!-- leadtime -->
 <?php
-if ($context['skip']) return;
+// $context['skip'] の場合は納期行だけ出さない（テンプレ全体は継続）
 ?>
 
-<?php if ($supplier['amp_group']) : ?>
+<?php if (!$context['skip'] && $supplier['amp_group']) : ?>
 
 <tr>
     <th>กำหนดการจัดส่ง</th>
@@ -493,20 +477,7 @@ if ($context['skip']) return;
     </td>
 </tr>
 
-<?php elseif ($supplier['tkg']) : ?>
-
-<tr>
-    <th>กำหนดการจัดส่ง</th>
-    <td>
-        <?php if ($stock['tkg'] > 0) : ?>
-            9 วันทำการ
-        <?php else : ?>
-            <span class="stock-maker stock-style">โปรดติดต่อเจ้าหน้าที่</span>
-        <?php endif; ?>
-    </td>
-</tr>
-
-<?php else : ?>
+<?php elseif (!$context['skip']) : ?>
 
 <tr>
     <th>กำหนดการจัดส่ง</th>
@@ -548,6 +519,7 @@ if ($context['skip']) return;
 
 <?php endif; ?>
 <!-- leadtime -->
+<?php } // end !skip ?>
 
 <tr>
 	<th>ผู้นำเข้า</th>
@@ -1130,7 +1102,6 @@ if ( $show_table ) :
 			        'monet_stock',
 			        'th_stock',
 			        'jp_stock',
-			        'tkg_stock',
 			        'ktw_stock',
 			        'sis_stock',
 			        'supplier_stock',
