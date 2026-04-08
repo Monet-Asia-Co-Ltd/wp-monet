@@ -1,0 +1,9 @@
+a#post-preview,
+.misc-pub-section.rank-math-seo-score,
+.misc-pub-section.curtime.misc-pub-curtime,
+div#purge-action,
+div#rewrite-republish-action,
+div#duplicate-action,
+div#visibility {
+    display: none;
+}

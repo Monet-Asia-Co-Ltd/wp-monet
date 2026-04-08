@@ -1,0 +1,55 @@
+div#minor-publishing,
+div#duplicate-action,
+div#delete-action,
+div#price_source-adder {
+    display: none !important;
+}
+
+.options_group.show_if_simple.show_if_external.show_if_variable,
+.product_custom_field,
+span.description,
+a.page-title-action,
+.handle-actions.hide-if-no-js,
+span.type_box.hidden,
+div#edit-slug-box {
+    display: none !important;
+}
+
+li.shipping_options.shipping_tab.hide_if_virtual.hide_if_grouped.hide_if_external,
+li.inventory_options.inventory_tab.show_if_simple.show_if_variable.show_if_grouped.show_if_external,
+li.linked_product_options.linked_product_tab,
+li.attribute_options.attribute_tab,
+li.advanced_options.advanced_tab,
+li.hide-if-no-js,
+div#trusco_status-adder,
+div#import_method-adder,
+div#bsdiv,
+div#cdiv,
+div#acf-group_63d123e153ab5 {
+    display: none !important;
+}
+
+.row-actions {
+    display: none !important;
+}
+
+.actions.ac-search,
+.alignleft.actions.bulkactions,
+div#ac-table-actions,
+div#screen-meta-links,
+ul.subsubsub,
+.tablenav-pages {
+    display: none;
+}
+
+aside#woocommerce-activity-panel {
+    display: none;
+}
+
+div#trusco_status-all {
+    max-height: none;
+}
+
+.page-id-36 li#wp-admin-bar-edit {
+    display: none;
+}

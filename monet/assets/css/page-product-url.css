@@ -1,0 +1,13 @@
+input#input {
+    padding: 9px;
+    margin-right: -7px;
+}
+
+button#btn {
+    border-radius: 0px 5px 5px 0px;
+    background: #2258f9 !important;
+}
+
+button#btn:hover {
+    background: #1639a7 !important;
+}
